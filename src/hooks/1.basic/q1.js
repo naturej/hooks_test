@@ -1,3 +1,4 @@
+import { useState } from "react";
 import styled from "styled-components";
 
 function Q1() {
@@ -23,6 +24,15 @@ function Q1() {
         p태그는 보이지 않아야합니다
 
   */
+  const [isEqual, setIsEqual] = useState(false);
+
+  const onTextChange = (e) => {
+    e.target.value === e.target.placeholder
+      ? setIsEqual(true)
+      : setIsEqual(false);
+  };
+
+  const [isShow, setIsShow] = useState(false);
 
   return (
     <>
@@ -33,21 +43,34 @@ function Q1() {
           type="text"
           placeholder={"김성용"}
           style={{ textAlign: "center" }}
+          onChange={onTextChange}
         />
-        <S.Message> 올바르게 입력하셨습니다 </S.Message>
+        {isEqual ? (
+          <S.Message isEqual={isEqual}> 올바르게 입력하셨습니다 </S.Message>
+        ) : (
+          <S.Message isEqual={isEqual}>올바르게 글을 작성해주세요</S.Message>
+        )}
       </div>
 
       <div>
         <h2>문제1-2. </h2>
-        <button>보이기</button>
-        <p> 이 문구는 보이기 상태일 때만 볼 수 있습니다 </p>
+        <button
+          onClick={(e) => {
+            setIsShow((prev) => !prev);
+          }}
+        >
+          {isShow ? "숨기기" : "보이기"}
+        </button>
+        {isShow && <p> 이 문구는 보이기 상태일 때만 볼 수 있습니다 </p>}
       </div>
     </>
   );
 }
 export default Q1;
 
-const Message = styled.p``;
+const Message = styled.p`
+  color: ${({ isEqual }) => (isEqual ? `green` : `red`)};
+`;
 
 const S = {
   Message,
