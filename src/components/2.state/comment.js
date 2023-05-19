@@ -1,15 +1,19 @@
 import styled from "styled-components";
 
-function Comment() {
+function Comment({ comments }) {
   return (
-    <S.CommentItem>
-      <p>
-        작성자: <span>예시 이름</span>
-      </p>
-      <p>
-        댓글 내용: <span>예시 내용</span>
-      </p>
-    </S.CommentItem>
+    <>
+      {comments.map((comment) => (
+        <S.CommentItem>
+          <p>
+            작성자: <span>{comment.User.nickname}</span>
+          </p>
+          <p>
+            댓글 내용: <span>{comment.content}</span>
+          </p>
+        </S.CommentItem>
+        ))}
+    </>
   );
 }
 export default Comment;

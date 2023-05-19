@@ -90,9 +90,7 @@ function State2() {
         <button>댓글 작성</button>
       </div>
       <S.CommentList>
-        {/* list */}
-        {/* 예시 데이터 */}
-        <Comment />
+        <Comment comments={post.Comments}/>
       </S.CommentList>
     </S.Wrapper>
   );
