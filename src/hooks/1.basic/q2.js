@@ -1,13 +1,29 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 function Q2() {
-  const arr = [];
+  const arr = useRef([]);
+  const todoList = useRef(null);
+  const txt = useRef(null);
   const [forceRender, setForceRender] = useState(false);
 
-  const onAddList = () => {
+  // 추가 버튼 클릭 시
+  const onAddList = (e) => {
+    e.preventDefault();
+    const text = e.target.text.value;
     setForceRender((prev) => !prev);
-    arr.push();
+    arr.current.push(text);
+    e.target.text.value ="";
   };
+
+  // 제출 버튼 클릭 시
+  const onPrintList = () => {
+    if(arr.current.length == 0) return todoList.current.innerHTML = "<p>제출된 목록이 없습니다</p>";
+    todoList.current.innerHTML = arr.current.map((todo)=> `<li>${todo}</li>`).join("");
+  }
+
+  const onChangeText = () => {
+    txt.current.style.color = "red";
+  }
 
   /* 
     문제2
@@ -42,29 +58,27 @@ function Q2() {
   */
 
   return (
-    <>
+    <form id="q2" onSubmit={onAddList}>
       <h1>문제2</h1>
       <div>
         <h2>문제 2-1</h2>
         <p>
-          <input />
+          <input name="text" />
         </p>
         <p>
-          <button onClick={onAddList}>추가</button>
+          <button>추가</button>
         </p>
         <p>
-          <button>제출</button>
+          <button type="button" onClick={onPrintList}>제출</button>
         </p>
-
-        <p>제출된 목록이 없습니다</p>
-        <ul>{/* -- list -- */}</ul>
+        <ul ref={todoList}>{/* -- list -- */}</ul>
       </div>
       <div>
         <h2>문제 2-2</h2>
-        <p> 이 문구는 아래 버튼을 누르면 색상이 바뀝니다</p>
-        <button>변경</button>
+        <p ref={txt}> 이 문구는 아래 버튼을 누르면 색상이 바뀝니다</p>
+        <button onClick={onChangeText}>변경</button>
       </div>
-    </>
+    </form>
   );
 }
 export default Q2;
