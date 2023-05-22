@@ -63,6 +63,26 @@ function State2() {
     ],
   });
 
+  const addComment = (e) => {
+    e.preventDefault();
+    const newComment = {
+      User: {
+        nickname: e.target.nickname.value,
+      },
+      content: e.target.content.value,
+      myComment: true,
+    };
+    e.target.nickname.value = "";
+    e.target.content.value = "";
+    setPost((prev) => {
+      const commentList = [newComment, ...prev.Comments];
+      return {
+        ...prev,
+        Comments: commentList,
+      };
+    });
+  };
+
   return (
     <S.Wrapper>
       <h1>문제2</h1>
@@ -82,15 +102,17 @@ function State2() {
         </p>
       </S.PostInfo>
       <div>
-        <p>
-          댓글 수: <span>{post.Comments.length}</span>
-        </p>
-        <input placeholder="작성자" />
-        <input placeholder="댓글 내용" />
-        <button>댓글 작성</button>
+        <form onSubmit={addComment}>
+          <p>
+            댓글 수: <span>{post.Comments.length}</span>
+          </p>
+          <input name="nickname" placeholder="작성자" />
+          <input name="content" placeholder="댓글 내용" />
+          <button>댓글 작성</button>
+        </form>
       </div>
       <S.CommentList>
-        <Comment comments={post.Comments}/>
+        <Comment comments={post.Comments} />
       </S.CommentList>
     </S.Wrapper>
   );

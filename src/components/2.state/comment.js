@@ -1,6 +1,8 @@
 import styled from "styled-components";
 
 function Comment({ comments }) {
+  const onDeleteComment = () => {};
+
   return (
     <>
       {comments.map((comment) => (
@@ -11,8 +13,14 @@ function Comment({ comments }) {
           <p>
             댓글 내용: <span>{comment.content}</span>
           </p>
+          {comment.myComment && (
+            <>
+              <button>수정</button>
+              <button onClick={onDeleteComment}>삭제</button>
+            </>
+          )}
         </S.CommentItem>
-        ))}
+      ))}
     </>
   );
 }
