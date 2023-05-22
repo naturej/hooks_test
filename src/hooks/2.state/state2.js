@@ -83,6 +83,21 @@ function State2() {
     });
   };
 
+  const deleteComment = (deleteIndex) => {
+    const _post = { ...post };
+    const commentList = _post.Comments.filter(
+      (_, index) => index !== deleteIndex
+    );
+    setPost((prev) => ({ ...prev, Comments: commentList }));
+  };
+
+  const updateComment = (findIndex, editContent) => {
+    const _post = { ...post };
+    const comment = _post.Comments.find((_, index) => index === findIndex);
+    comment.content = editContent;
+    setPost(_post);
+  };
+
   return (
     <S.Wrapper>
       <h1>문제2</h1>
@@ -112,7 +127,11 @@ function State2() {
         </form>
       </div>
       <S.CommentList>
-        <Comment comments={post.Comments} />
+        <Comment
+          comments={post.Comments}
+          deleteComment={deleteComment}
+          updateComment={updateComment}
+        />
       </S.CommentList>
     </S.Wrapper>
   );

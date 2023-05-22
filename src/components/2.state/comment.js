@@ -1,24 +1,56 @@
+import { useState } from "react";
 import styled from "styled-components";
 
-function Comment({ comments }) {
-  const onDeleteComment = () => {};
+function Comment({ comments, deleteComment, updateComment }) {
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [editContent, setEditContent] = useState("");
+  const [editIndex, setEditIndex] = useState();
+
+  const handleDeleteComment = (index) => {
+    if (isEditMode) return;
+    deleteComment(index);
+  };
+
+  const handleUpdateComment = (e, index) => {
+    e.preventDefault();
+    setEditIndex(index);
+    if (!isEditMode) return setIsEditMode(true);
+    setEditContent(comments[index].content);
+    updateComment(index, e.target.content.value);
+    setIsEditMode(false);
+  };
 
   return (
     <>
-      {comments.map((comment) => (
+      {comments.map((comment, index) => (
         <S.CommentItem>
-          <p>
-            작성자: <span>{comment.User.nickname}</span>
-          </p>
-          <p>
-            댓글 내용: <span>{comment.content}</span>
-          </p>
-          {comment.myComment && (
-            <>
-              <button>수정</button>
-              <button onClick={onDeleteComment}>삭제</button>
-            </>
-          )}
+          <form onSubmit={(e) => handleUpdateComment(e, index)}>
+            <p>
+              작성자: <span>{comment.User.nickname}</span>
+            </p>
+            <p>
+              댓글 내용:{" "}
+              {isEditMode && index === editIndex ? (
+                <textarea
+                  name="content"
+                  defaultValue={comment.content}
+                ></textarea>
+              ) : (
+                <span>{comment.content}</span>
+              )}
+            </p>
+            {comment.myComment && (
+              <>
+                <button>수정</button>
+                <button
+                  type="button"
+                  onClick={() => handleDeleteComment(index)}
+                >
+                  삭제
+                </button>
+              </>
+            )}
+          </form>
         </S.CommentItem>
       ))}
     </>
