@@ -15,6 +15,10 @@ function App() {
       element: <StatesPage />,
     },
     {
+      path: "/state/detail",
+      element: <DetailPage />,
+    },
+    {
       path: "/state/detail/:productNumber",
       element: <DetailPage />,
     },

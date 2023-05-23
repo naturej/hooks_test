@@ -44,8 +44,8 @@ function State3() {
 
   const navigate = useNavigate();
 
-  const onNavigateDetailPage = () => {
-    navigate(`/state/detail/1`);
+  const onNavigateDetailPage = (productNumber) => {
+    navigate(`/state/detail/${productNumber}`);
   };
 
   return (
@@ -53,9 +53,9 @@ function State3() {
       <h1>문제3</h1>
       <h2>상품 목록</h2>
       <ul>
-        {/* list */}
-        {/* 예시 데이터 */}
-        <ProductCard onNavigate={onNavigateDetailPage} />
+        {productList.products.map((product) => (
+          <ProductCard product={product} onNavigate={onNavigateDetailPage} />
+        ))}
       </ul>
     </>
   );

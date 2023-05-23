@@ -1,14 +1,23 @@
 import styled from "styled-components";
+import priceComma from "../../utils/priceComma";
 
-function ProductCard({ onNavigate }) {
+function ProductCard({ product, onNavigate }) {
+  const {
+    productName,
+    productPrice,
+    productNumber,
+    productSize,
+    productRating,
+    Review,
+  } = product;
   return (
-    <S.Item onClick={onNavigate}>
-      <h4>구멍난 양말</h4>
-      <p>상품번호: 302012</p>
-      <p>가격: 3000원</p>
-      <p>사이즈: X, M, L</p>
-      <p>평점: 4.5</p>
-      <p>리뷰: 14</p>
+    <S.Item onClick={() => onNavigate(productNumber)}>
+      <h4>{productName}</h4>
+      <p>상품번호: {productNumber}</p>
+      <p>가격: {priceComma(productPrice)}원</p>
+      <p>사이즈: {productSize}</p>
+      <p>평점: {productRating}</p>
+      <p>리뷰: {Review.length}</p>
     </S.Item>
   );
 }
